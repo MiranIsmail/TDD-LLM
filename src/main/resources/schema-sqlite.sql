@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS owners (
   city TEXT,
   telephone TEXT,
   username TEXT UNIQUE,
-  password TEXT
+  password TEXT,
   authority_level TEXT DEFAULT 'USER'
 );
 

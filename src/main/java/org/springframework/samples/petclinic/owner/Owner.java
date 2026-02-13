@@ -102,6 +102,7 @@ public class Owner extends Person {
 		if (pet.isNew()) {
 			getPets().add(pet);
 		}
+		pet.setOwner(this);
 	}
 
 	public String getUsername() {
