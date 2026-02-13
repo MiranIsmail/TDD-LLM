@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS pets (
   birth_date DATE,
   type_id INTEGER NOT NULL,
   owner_id INTEGER NOT NULL,
-  FOREIGN KEY (owner_id) REFERENCES owners(id),
   FOREIGN KEY (type_id) REFERENCES types(id)
 );
 
@@ -48,11 +47,11 @@ CREATE TABLE IF NOT EXISTS visits (
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 );
 CREATE TABLE IF NOT EXISTS clinic_users (
-                                          id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                          first_name TEXT,
-                                          last_name TEXT,
-                                          username TEXT,
-                                          password TEXT,
-                                          authority_level INTEGER,
-                                          UNIQUE(username) -- Important: Prevent duplicate usernames
-  );
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name TEXT,
+  last_name TEXT,
+  username TEXT,
+  password TEXT,
+  authority_level INTEGER,
+  UNIQUE(username)
+);
