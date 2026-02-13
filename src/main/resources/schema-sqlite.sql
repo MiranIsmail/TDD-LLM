@@ -27,7 +27,10 @@ CREATE TABLE IF NOT EXISTS owners (
   last_name TEXT,
   address TEXT,
   city TEXT,
-  telephone TEXT
+  telephone TEXT,
+  username TEXT UNIQUE,
+  password TEXT
+  authority_level TEXT DEFAULT 'USER'
 );
 
 CREATE TABLE IF NOT EXISTS pets (
