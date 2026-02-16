@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.petclinic.model.Person;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.util.Assert;
 
 import jakarta.persistence.CascadeType;
@@ -46,7 +46,7 @@ import jakarta.validation.constraints.NotBlank;
  */
 @Entity
 @Table(name = "owners")
-public class Owner extends Person {
+public class Owner extends User {
 
 	@Column
 	@NotBlank
@@ -148,6 +148,8 @@ public class Owner extends Person {
 	public String toString() {
 		return new ToStringCreator(this).append("id", this.getId())
 			.append("new", this.isNew())
+			.append("username", this.getUsername())
+			.append("role", this.getRole())
 			.append("lastName", this.getLastName())
 			.append("firstName", this.getFirstName())
 			.append("address", this.address)

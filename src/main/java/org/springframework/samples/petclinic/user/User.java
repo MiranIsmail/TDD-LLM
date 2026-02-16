@@ -7,6 +7,7 @@ import org.springframework.samples.petclinic.model.Person;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends Person {
 
 	@Column(unique = true)

@@ -1,4 +1,14 @@
 -- SQLite Schema
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  role VARCHAR(16),
+  username VARCHAR(80) UNIQUE,
+  password VARCHAR(1028)
+);
+CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+CREATE INDEX IF NOT EXISTS idx_users_last_name ON users(last_name);
 
 CREATE TABLE IF NOT EXISTS vets (
   id INTEGER PRIMARY KEY,
@@ -29,13 +39,11 @@ CREATE INDEX IF NOT EXISTS idx_types_name ON types(name);
 
 CREATE TABLE IF NOT EXISTS owners (
   id INTEGER PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
   address VARCHAR(255),
   city VARCHAR(80),
-  telephone VARCHAR(20)
+  telephone VARCHAR(20),
+  FOREIGN KEY (id) REFERENCES users(id)
 );
-CREATE INDEX IF NOT EXISTS idx_owners_last_name ON owners(last_name);
 
 CREATE TABLE IF NOT EXISTS pets (
   id INTEGER PRIMARY KEY,
@@ -55,12 +63,4 @@ CREATE TABLE IF NOT EXISTS visits (
   description VARCHAR(255),
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 );
-CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
-  role VARCHAR(16),
-  username VARCHAR(80) UNIQUE,
-  password VARCHAR(1028)
-);
-CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+
