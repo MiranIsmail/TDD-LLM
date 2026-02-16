@@ -55,3 +55,12 @@ CREATE TABLE IF NOT EXISTS visits (
   description VARCHAR(255),
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 );
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  role VARCHAR(16),
+  username VARCHAR(80) UNIQUE,
+  password VARCHAR(1028)
+);
+CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
