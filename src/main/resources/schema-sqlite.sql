@@ -55,10 +55,12 @@ CREATE TABLE IF NOT EXISTS clinic_users (
   last_name TEXT,
   username TEXT,
   password TEXT,
-  authority_level INTEGER,
+  authority_level TEXT,
   UNIQUE(username)
 );
 
-INSERT INTO owners (id, first_name, last_name, address, city, telephone,username,password)
-VALUES (1337, 'Felix', 'Andersson', 'Kalle', 'K', '1234567890','fean','123' );
+INSERT OR IGNORE INTO owners (first_name, last_name, address, city, telephone,username,password)
+VALUES ('Felix', 'Andersson', 'Kalle', 'K', '1234567890','fean','123' );
 
+INSERT OR IGNORE INTO clinic_users (first_name, last_name,username,password,authority_level)
+VALUES ('Belix', 'Fandersson','befa','123','ADMIN' );

@@ -67,6 +67,10 @@ public class Owner extends Person {
 	@NotBlank
 	private String password;
 
+	@Column
+	@NotBlank
+	private String authority_level;
+
 	// =======================
 	// Getters & Setters
 	// =======================
@@ -119,6 +123,14 @@ public class Owner extends Person {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getAuthorityLevel() {
+		return authority_level;
+	}
+
+	public void setAuthorityLevel(String authority_level) {
+		this.authority_level = authority_level;
 	}
 
 	// =======================

@@ -22,7 +22,7 @@ public class User {
 	private String password;
 
 	@Column(name = "authority_level")
-	private Integer authorityLevel;
+	private String authorityLevel;
 
 	// Getters and Setters are required
 	public String getFirstName() {
@@ -65,11 +65,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Integer getAuthorityLevel() {
+	public String getAuthorityLevel() {
 		return authorityLevel;
 	}
 
-	public void setAuthorityLevel(Integer authorityLevel) {
+	public void setAuthorityLevel(String authorityLevel) {
 		this.authorityLevel = authorityLevel;
 	}
 
