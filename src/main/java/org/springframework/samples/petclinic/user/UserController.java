@@ -46,7 +46,7 @@ public class UserController {
 	@GetMapping("/users")
 	public String processFindForm(Model model) {
 		// List all users
-		model.addAttribute("listUsers", users.findAll());
+		model.addAttribute("listUsers", users.findAllExceptOwnersv2());
 		return "users/userList";
 	}
 
