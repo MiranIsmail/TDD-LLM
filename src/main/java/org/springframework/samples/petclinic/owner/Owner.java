@@ -34,6 +34,16 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Simple JavaBean domain object representing an owner.
+ *
+ * @author Ken Krebs
+ * @author Juergen Hoeller
+ * @author Sam Brannen
+ * @author Michael Isvy
+ * @author Oliver Drotbohm
+ * @author Wick Dynex
+ */
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {
@@ -56,24 +66,6 @@ public class Owner extends Person {
 	@OrderBy("name")
 	private final List<Pet> pets = new ArrayList<>();
 
-	// =======================
-	// NEW: username & password
-	// =======================
-	@Column(unique = true)
-	@NotBlank
-	private String username;
-
-	@Column
-	@NotBlank
-	private String password;
-
-	@Column
-	@NotBlank
-	private String authority_level;
-
-	// =======================
-	// Getters & Setters
-	// =======================
 	public String getAddress() {
 		return this.address;
 	}
@@ -106,40 +98,22 @@ public class Owner extends Person {
 		if (pet.isNew()) {
 			getPets().add(pet);
 		}
-		pet.setOwner(this);
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getAuthorityLevel() {
-		return authority_level;
-	}
-
-	public void setAuthorityLevel(String authority_level) {
-		this.authority_level = authority_level;
-	}
-
-	// =======================
-	// Existing Pet Methods
-	// =======================
+	/**
+	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * @param name to test
+	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
+	 */
 	public Pet getPet(String name) {
 		return getPet(name, false);
 	}
 
+	/**
+	 * Return the Pet with the given id, or null if none found for this Owner.
+	 * @param id to test
+	 * @return the Pet with the given id, or null if no such Pet exists for this Owner
+	 */
 	public Pet getPet(Integer id) {
 		for (Pet pet : getPets()) {
 			if (!pet.isNew()) {
@@ -152,6 +126,12 @@ public class Owner extends Person {
 		return null;
 	}
 
+	/**
+	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * @param name to test
+	 * @param ignoreNew whether to ignore new pets (pets that are not saved yet)
+	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
+	 */
 	public Pet getPet(String name, boolean ignoreNew) {
 		for (Pet pet : getPets()) {
 			String compName = pet.getName();
@@ -173,11 +153,16 @@ public class Owner extends Person {
 			.append("address", this.address)
 			.append("city", this.city)
 			.append("telephone", this.telephone)
-			.append("username", this.username) // include username for debug
 			.toString();
 	}
 
+	/**
+	 * Adds the given {@link Visit} to the {@link Pet} with the given identifier.
+	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+	 * @param visit the visit to add, must not be {@literal null}.
+	 */
 	public void addVisit(Integer petId, Visit visit) {
+
 		Assert.notNull(petId, "Pet identifier must not be null!");
 		Assert.notNull(visit, "Visit must not be null!");
 
