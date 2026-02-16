@@ -1,9 +1,8 @@
 package org.springframework.samples.petclinic.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.samples.petclinic.model.Person;
 
 @Entity
@@ -15,8 +14,9 @@ public class User extends Person {
 	private String username;
 
 	@Column
-	@NotBlank
-	private String role;
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private Role role;
 
 	@Column
 	@NotBlank
@@ -30,11 +30,11 @@ public class User extends Person {
 		this.username = username;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

@@ -59,6 +59,11 @@
             <span th:text="#{error}">Error</span>
           </li>
 
+          <li th:replace="~{::menuItem ('/users','users','manage users','user','Users')}">
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <span>Users</span>
+          </li>
+
         </ul>
       </div>
     </div>
