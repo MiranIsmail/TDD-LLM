@@ -58,3 +58,7 @@ CREATE TABLE IF NOT EXISTS clinic_users (
   authority_level INTEGER,
   UNIQUE(username)
 );
+
+INSERT INTO owners (id, first_name, last_name, address, city, telephone,username,password)
+VALUES (1337, 'Felix', 'Andersson', 'Kalle', 'K', '1234567890','fean','123' );
+

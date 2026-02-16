@@ -5,15 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.samples.petclinic.owner.Owner;
+import org.springframework.samples.petclinic.owner.OwnerRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -21,13 +20,26 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	private final OwnerRepository ownerRepository;
+
+	public SecurityConfig(OwnerRepository ownerRepository) {
+		this.ownerRepository = ownerRepository;
+	}
+
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails admin = User.withUsername("admin").password("{noop}admin123").roles("ADMIN").build();
+		return username -> {
+			Owner owner = ownerRepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-		UserDetails user = User.withUsername("user").password("{noop}user123").roles("USER").build();
+			// Use authority_level if you have it; otherwise default to USER
+			String role = "USER";
 
-		return new InMemoryUserDetailsManager(admin, user);
+			return User.withUsername(owner.getUsername())
+				.password("{noop}" + owner.getPassword()) // Use BCrypt in production
+				.roles(role)
+				.build();
+		};
 	}
 
 	@Bean
@@ -36,7 +48,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth.requestMatchers("/admin/**")
 				.hasRole("ADMIN")
 				.requestMatchers("/user/**")
-				.hasAnyRole("USER", "ADMIN")
+				.hasRole("USER")
 				.anyRequest()
 				.authenticated())
 			.httpBasic(withDefaults())
