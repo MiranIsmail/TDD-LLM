@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'error')}">
+<head>
+    <meta charset="UTF-8">
+    <title>My Pets & Appointments</title>
+</head>
+<body>
+<h2>My Pets</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th style="padding: 12px;">Name</th>
+        <th style="padding: 12px;">Birth Date</th>
+        <th style="padding: 12px;">Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pet : ${pets}">
+        <td style="padding: 12px;" th:text="${pet.name}">Pet Name</td>
+        <td style="padding: 12px;" th:text="${pet.birthDate}">Birth Date</td>
+        <td style="padding: 12px;" th:text="${pet.type.name}">Type</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>My Appointments</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th style="padding: 12px;">Pet Name</th>
+        <th style="padding: 12px;">Date</th>
+        <th style="padding: 12px;">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="visit : ${appointments}">
+        <td style="padding: 12px;" th:text="${visit.pet.name}">Pet Name</td>
+        <td style="padding: 12px;" th:text="${visit.date}">Date</td>
+        <td style="padding: 12px;" th:text="${visit.description}">Description</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

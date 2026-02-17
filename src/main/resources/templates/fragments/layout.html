@@ -63,6 +63,12 @@
             <span class="fa fa-user" aria-hidden="true"></span>
             <span>Users</span>
           </li>
+          <li sec:authorize="hasRole('OWNER')"
+              th:replace="~{::menuItem('/appointments', 'appointments', 'my appointments', 'calendar', #{myAppointments})}">
+            <span class="fa fa-calendar" aria-hidden="true"></span>
+            <span th:text="#{myAppointments}">My Appointments</span>
+          </li>
+
 
         </ul>
       </div>
