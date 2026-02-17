@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html th:fragment="layout (template, menu)" xmlns:th="https://www.thymeleaf.org">
+<html th:fragment="layout (template, menu)" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -43,23 +44,22 @@
             <span th:text="#{home}">Home</span>
           </li>
 
-          <li th:replace="~{::menuItem ('/owners/find','owners','find owners','search',#{findOwners})}">
+          <li sec:authorize="hasAnyRole('ADMIN','RECEPTIONIST')" th:replace="~{::menuItem ('/owners/find','owners','find owners','search',#{findOwners})}">
             <span class="fa fa-search" aria-hidden="true"></span>
             <span th:text="#{findOwners}">Find owners</span>
           </li>
 
-          <li th:replace="~{::menuItem ('/vets.html','vets','veterinarians','th-list',#{vets})}">
+          <li sec:authorize="hasAnyRole('ADMIN','RECEPTIONIST')" th:replace="~{::menuItem ('/vets.html','vets','veterinarians','th-list',#{vets})}">
             <span class="fa fa-th-list" aria-hidden="true"></span>
             <span th:text="#{vets}">Veterinarians</span>
           </li>
 
-          <li
-            th:replace="~{::menuItem ('/oups','error','trigger a RuntimeException to see how it is handled','exclamation-triangle',#{error})}">
+          <li sec:authorize="hasRole('ADMIN')" th:replace="~{::menuItem ('/oups','error','trigger a RuntimeException to see how it is handled','exclamation-triangle',#{error})}">
             <span class="fa exclamation-triangle" aria-hidden="true"></span>
             <span th:text="#{error}">Error</span>
           </li>
 
-          <li th:replace="~{::menuItem ('/users','users','manage users','user','Users')}">
+          <li sec:authorize="hasRole('ADMIN')" th:replace="~{::menuItem ('/users','users','manage users','user','Users')}">
             <span class="fa fa-user" aria-hidden="true"></span>
             <span>Users</span>
           </li>
