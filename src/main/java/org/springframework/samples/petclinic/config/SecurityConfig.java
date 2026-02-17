@@ -24,9 +24,11 @@ public class SecurityConfig {
 				.requestMatchers("/login", "/error")
 				.permitAll()
 
-				// Only USER role can access owners
+				.requestMatchers("/costumer/**")
+				.hasRole("OWNER")
+
 				.requestMatchers("/owners/**")
-				.hasRole("USER")
+				.hasAnyRole("ADMIN", "RECEPTIONIST")
 
 				// RECEPTIONIST can access everything except /users/**
 				.requestMatchers("/users/**")
@@ -34,7 +36,7 @@ public class SecurityConfig {
 
 				// Admin can access everything else
 				.anyRequest()
-				.hasAnyRole("ADMIN", "RECEPTIONIST"))
+				.hasAnyRole("ADMIN", "RECEPTIONIST", "OWNER"))
 
 			// Login configuration
 			.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
