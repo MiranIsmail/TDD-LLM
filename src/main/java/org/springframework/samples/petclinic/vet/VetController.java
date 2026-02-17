@@ -17,14 +17,14 @@ package org.springframework.samples.petclinic.vet;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Juergen Hoeller
@@ -37,8 +37,16 @@ class VetController {
 
 	private final VetRepository vetRepository;
 
-	public VetController(VetRepository vetRepository) {
+	private final SpecialtyRepository specialtyRepository;
+
+	public VetController(VetRepository vetRepository, SpecialtyRepository specialtyRepository) {
 		this.vetRepository = vetRepository;
+		this.specialtyRepository = specialtyRepository;
+	}
+
+	@ModelAttribute("specialties")
+	public Iterable<Specialty> populateSpecialties() {
+		return this.specialtyRepository.findAll();
 	}
 
 	@GetMapping("/vets.html")
@@ -73,6 +81,22 @@ class VetController {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.vetRepository.findAll());
 		return vets;
+	}
+
+	@GetMapping("/vets/new")
+	public String initCreationForm(Model model) {
+		Vet vet = new Vet();
+		model.addAttribute("vet", vet);
+		return "vets/createOrUpdateVetForm";
+	}
+
+	@PostMapping("/vets/new")
+	public String processCreationForm(@Valid Vet vet, BindingResult result) {
+		if (result.hasErrors()) {
+			return "vets/createOrUpdateVetForm";
+		}
+		this.vetRepository.save(vet);
+		return "redirect:/vets.html";
 	}
 
 }
