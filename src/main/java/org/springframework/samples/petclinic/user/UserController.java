@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.user;
 
 import jakarta.validation.Valid;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +18,11 @@ public class UserController {
 
 	private final UserRepository users;
 
-	public UserController(UserRepository users) {
+	private final PasswordEncoder passwordEncoder;
+
+	public UserController(UserRepository users, PasswordEncoder passwordEncoder) {
 		this.users = users;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@InitBinder
@@ -38,6 +43,8 @@ public class UserController {
 			return "users/createOrUpdateUserForm";
 		}
 		else {
+			String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+			user.setPassword(encodedPassword);
 			this.users.save(user);
 			return "redirect:/users";
 		}

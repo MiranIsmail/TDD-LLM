@@ -35,7 +35,7 @@ INSERT OR IGNORE INTO types VALUES (6, 'hamster');
 -- ======================================================================
 
 -- System Users
-INSERT OR IGNORE INTO users (id, first_name, last_name, role, username, password) VALUES (1, 'Admin', 'System', 'ADMIN', 'admin', 'admin');
+INSERT OR IGNORE INTO users (id, first_name, last_name, role, username, password) VALUES (1, 'Admin', 'System', 'ADMIN', 'admin', '$2y$10$6eVe3C9aVTMUxWra9/7w0uFjaqNTYtQnFeKVHve5jkpOk0XWNm6Qy');
 INSERT OR IGNORE INTO users (id, first_name, last_name, role, username, password) VALUES (3, 'Generic', 'Owner', 'OWNER', 'user', 'user');
 
 INSERT OR IGNORE INTO users (id, first_name, last_name, role, username, password) VALUES (4, 'George', 'Franklin', 'OWNER', 'gfranklin', '123');
