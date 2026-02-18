@@ -21,11 +21,14 @@ public class SecurityConfig {
 			// Role-based access rules
 			.authorizeHttpRequests(auth -> auth
 				// Public pages
-				.requestMatchers("/login", "/error")
+				.requestMatchers("/", "/login", "/error", "/css/**", "/webjars/**", "/images/**")
 				.permitAll()
 
 				.requestMatchers("/costumer/**")
 				.hasRole("OWNER")
+					
+				.requestMatchers("/vets/**")
+				.hasAnyRole("ADMIN", "RECEPTIONIST")
 
 				.requestMatchers("/owners/**")
 				.hasAnyRole("ADMIN", "RECEPTIONIST")
@@ -34,15 +37,17 @@ public class SecurityConfig {
 				.requestMatchers("/users/**")
 				.hasRole("ADMIN")
 
-				// Admin can access everything else
 				.anyRequest()
-				.hasAnyRole("ADMIN", "RECEPTIONIST", "OWNER"))
+				.permitAll())
 
 			// Login configuration
 			.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
 
 			// Logout configuration
-			.logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
+			.logout(logout -> logout
+				.logoutSuccessUrl("/")  // <-- redirect to "/" after logout
+				.permitAll()
+			);
 
 		return http.build();
 	}
